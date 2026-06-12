@@ -1,4 +1,4 @@
-import { readBody, requireEnv, requirePost, sendJson, supabaseRequest } from "./_utils.js";
+import { googleSheetsRequest, readBody, requireEnv, requirePost, sendJson } from "./_utils.js";
 
 export default async function handler(request, response) {
   if (!requirePost(request, response)) return;
@@ -12,12 +12,11 @@ export default async function handler(request, response) {
       return;
     }
 
-    const rows = await supabaseRequest("rsvps?select=*&order=created_at.desc", {
-      method: "GET",
-      headers: { Prefer: undefined },
+    const result = await googleSheetsRequest({
+      action: "list",
     });
 
-    sendJson(response, 200, { rows });
+    sendJson(response, 200, { rows: result.rows || [] });
   } catch (error) {
     sendJson(response, 500, { error: error.message });
   }

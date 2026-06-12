@@ -35,6 +35,18 @@ function findConfirmedRsvp(sheet, payload) {
   return false;
 }
 
+function listRsvps(sheet) {
+  const rows = sheet.getDataRange().getValues();
+
+  return rows.slice(1).reverse().map((row) => ({
+    created_at: row[0] || "",
+    full_name: row[1] || "",
+    email: row[2] || "",
+    phone: row[3] || "",
+    attendance: row[4] || "",
+  }));
+}
+
 function doPost(event) {
   try {
     const sheet = getRsvpSheet();
@@ -43,6 +55,12 @@ function doPost(event) {
     if (payload.action === "check") {
       return ContentService
         .createTextOutput(JSON.stringify({ ok: true, confirmed: findConfirmedRsvp(sheet, payload) }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    if (payload.action === "list") {
+      return ContentService
+        .createTextOutput(JSON.stringify({ ok: true, rows: listRsvps(sheet) }))
         .setMimeType(ContentService.MimeType.JSON);
     }
 
