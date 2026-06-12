@@ -738,51 +738,131 @@ details[open] summary::after {
   border: 1px solid var(--line);
   box-shadow: var(--shadow);
   display: grid;
-  gap: 0;
+  gap: clamp(24px, 4vw, 36px);
   margin: 0 auto;
-  max-width: 980px;
+  max-width: 1120px;
+  padding: clamp(24px, 4vw, 42px);
 }
 
-.travel-item {
+.travel-intro {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 24px;
+}
+
+.travel-intro p {
+  color: var(--muted);
+  font-size: 1.04rem;
+  margin: 0;
+  max-width: 760px;
+}
+
+.airport-grid,
+.hotel-grid {
   display: grid;
-  gap: 22px;
-  grid-template-columns: 54px 1fr;
-  padding: clamp(24px, 4vw, 38px);
+  gap: 16px;
 }
 
-.travel-item + .travel-item {
-  border-top: 1px solid var(--line);
+.airport-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.travel-icon {
-  align-items: center;
+.airport-card {
+  align-items: flex-start;
   background: var(--ivory);
-  border: 1px solid var(--champagne);
+  border: 1px solid var(--line);
+  display: grid;
+  gap: 16px;
+  grid-template-columns: auto 1fr;
+  padding: 20px;
+}
+
+.airport-card.preferred {
+  background: linear-gradient(135deg, rgba(216, 189, 127, 0.26), rgba(255, 255, 255, 0.86));
+  border-color: rgba(157, 121, 50, 0.42);
+}
+
+.airport-code {
+  align-items: center;
+  background: var(--black);
+  border: 1px solid var(--black);
   border-radius: 999px;
-  color: var(--champagne-dark);
+  color: var(--white);
   display: inline-flex;
-  font-size: 1.3rem;
-  height: 54px;
+  font-size: 0.72rem;
+  font-weight: 900;
+  height: 48px;
   justify-content: center;
-  width: 54px;
+  letter-spacing: 0.08em;
+  width: 48px;
 }
 
-.travel-item h3 {
+.airport-card.preferred .airport-code {
+  background: var(--champagne);
+  border-color: var(--champagne-dark);
+  color: var(--black);
+}
+
+.airport-card h3,
+.hotel-card h3 {
   font-family: "Cormorant Upright", "Cormorant Garamond", Georgia, serif;
-  font-size: 2.2rem;
+  font-size: 1.85rem;
   font-weight: 500;
-  line-height: 1;
-  margin: 0 0 12px;
+  line-height: 1.05;
+  margin: 0 0 8px;
 }
 
-.travel-item ul {
+.airport-card p,
+.hotel-card p {
   color: var(--muted);
   margin: 0;
-  padding-left: 18px;
 }
 
-.travel-item li + li {
-  margin-top: 6px;
+.hotel-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.hotel-card {
+  align-items: center;
+  border: 1px solid var(--line);
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 112px 1fr;
+  min-height: 210px;
+  padding: 22px;
+}
+
+.hotel-photo {
+  align-items: center;
+  aspect-ratio: 1;
+  background:
+    linear-gradient(135deg, rgba(17, 16, 14, 0.2), rgba(216, 189, 127, 0.22)),
+    url("assets/nikkah-hero.png") center / cover;
+  border: 1px solid rgba(157, 121, 50, 0.4);
+  border-radius: 999px;
+  color: var(--white);
+  display: flex;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 3rem;
+  font-weight: 700;
+  justify-content: center;
+  text-shadow: 0 2px 12px rgba(17, 16, 14, 0.45);
+  width: 112px;
+}
+
+.hotel-copy a {
+  color: var(--champagne-dark);
+  display: inline-flex;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  margin-top: 14px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.hotel-copy a::after {
+  content: ">";
+  margin-left: 8px;
 }
 
 .section.registry-section {
@@ -829,6 +909,35 @@ details[open] summary::after {
 
 .admin-title {
   margin-bottom: 28px;
+}
+
+.admin-back.button.secondary {
+  background: rgba(255, 255, 255, 0.58);
+  border-color: var(--champagne);
+  border-radius: 999px;
+  color: var(--champagne-dark);
+  display: inline-flex;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  margin-bottom: 18px;
+  min-height: 38px;
+  padding: 0 16px;
+  box-shadow: none;
+  text-transform: uppercase;
+  width: auto;
+}
+
+.admin-back.button.secondary::before {
+  content: "<";
+  margin-right: 8px;
+}
+
+.admin-back.button.secondary:hover,
+.admin-back.button.secondary:focus-visible {
+  background: var(--white);
+  border-color: var(--champagne-dark);
+  color: var(--black);
 }
 
 .admin-title h1 {
@@ -902,6 +1011,8 @@ th {
   .two-column,
   .detail-grid,
   .travel-grid,
+  .airport-grid,
+  .hotel-grid,
   .timeline,
   .field-grid {
     grid-template-columns: 1fr;
@@ -913,6 +1024,10 @@ th {
 
   .detail-card,
   .travel-grid article {
+    min-height: auto;
+  }
+
+  .hotel-card {
     min-height: auto;
   }
 
@@ -961,5 +1076,18 @@ th {
   .section {
     padding-left: 20px;
     padding-right: 20px;
+  }
+
+  .travel-panel {
+    padding: 20px;
+  }
+
+  .airport-card,
+  .hotel-card {
+    grid-template-columns: 1fr;
+  }
+
+  .hotel-photo {
+    width: 92px;
   }
 }

@@ -2,6 +2,7 @@ const WEDDING_DATE = new Date("2026-08-22T15:00:00-04:00");
 
 const body = document.body;
 const site = document.getElementById("site");
+const gateCopy = document.getElementById("gate-copy");
 const passwordForm = document.getElementById("password-form");
 const passwordInput = document.getElementById("password");
 const passwordError = document.getElementById("password-error");
@@ -47,6 +48,7 @@ showReturning.addEventListener("click", () => {
   passwordForm.classList.add("hidden");
   showReturning.classList.add("hidden");
   returningGuest.classList.remove("hidden");
+  gateCopy.classList.add("hidden");
   returningError.textContent = "";
 });
 
@@ -54,6 +56,8 @@ showPassword.addEventListener("click", () => {
   returningGuest.classList.add("hidden");
   passwordForm.classList.remove("hidden");
   showReturning.classList.remove("hidden");
+  gateCopy.classList.remove("hidden");
+  gateCopy.textContent = "Please enter the guest password from your invitation to confirm your RSVP.";
   passwordError.textContent = "";
 });
 

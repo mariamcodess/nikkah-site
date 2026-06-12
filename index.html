@@ -22,7 +22,7 @@
       <section class="gate-panel">
         <p class="eyebrow">Private invitation</p>
         <h1 id="gate-title">Mariam & Umar</h1>
-        <p>
+        <p id="gate-copy">
           Please enter the guest password from your invitation to confirm your RSVP.
         </p>
         <form id="password-form" class="password-form">
@@ -258,36 +258,75 @@
           <h2>Guest Guide</h2>
         </div>
         <div class="travel-panel">
-          <article class="travel-item">
-            <span class="travel-icon" aria-hidden="true">✈</span>
-            <div>
-              <h3>Airport</h3>
-              <ul>
-                <li>BWI is the closest major airport to Windsor Mill.</li>
-                <li>DCA and IAD are additional options for guests flying into the DMV area.</li>
-              </ul>
-            </div>
-          </article>
-          <article class="travel-item">
-            <span class="travel-icon" aria-hidden="true">⌂</span>
-            <div>
-              <h3>Hotel</h3>
-              <ul>
-                <li>A hotel block will be added soon, insha'Allah.</li>
-                <li>We recommend staying near Windsor Mill, Owings Mills, or downtown Baltimore.</li>
-              </ul>
-            </div>
-          </article>
-          <article class="travel-item">
-            <span class="travel-icon" aria-hidden="true">☕</span>
-            <div>
-              <h3>Things To Do</h3>
-              <ul>
-                <li>Local coffee, dessert, and halal food recommendations will be shared here.</li>
-                <li>Family-friendly museums, parks, and calm afternoon plans are coming soon.</li>
-              </ul>
-            </div>
-          </article>
+          <div class="travel-intro">
+            <p>
+              The venue is in Windsor Mill, Maryland. BWI is the closest airport
+              and the easiest choice for most out-of-town guests.
+            </p>
+          </div>
+
+          <div class="airport-grid" aria-label="Airport options">
+            <article class="airport-card preferred">
+              <span class="airport-code">BWI</span>
+              <div>
+                <h3>Baltimore/Washington International</h3>
+                <p>Preferred airport, about 25 minutes from the venue.</p>
+              </div>
+            </article>
+            <article class="airport-card">
+              <span class="airport-code">DCA</span>
+              <div>
+                <h3>Reagan National</h3>
+                <p>Washington, DC option, about 60-75 minutes away.</p>
+              </div>
+            </article>
+            <article class="airport-card">
+              <span class="airport-code">IAD</span>
+              <div>
+                <h3>Dulles International</h3>
+                <p>Northern Virginia option, about 75-90 minutes away.</p>
+              </div>
+            </article>
+          </div>
+
+          <div class="hotel-grid" aria-label="Hotel options">
+            <article class="hotel-card">
+              <div class="hotel-photo" aria-hidden="true">M</div>
+              <div class="hotel-copy">
+                <p class="card-label">About 15-20 minutes</p>
+                <h3>Marriott Owings Mills Metro Centre</h3>
+                <p>A polished option near Owings Mills shops, restaurants, and the Metro Centre area.</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Marriott+Owings+Mills+Metro+Centre" target="_blank" rel="noreferrer">View Map</a>
+              </div>
+            </article>
+            <article class="hotel-card">
+              <div class="hotel-photo" aria-hidden="true">D</div>
+              <div class="hotel-copy">
+                <p class="card-label">About 15-20 minutes</p>
+                <h3>DoubleTree by Hilton Baltimore North - Pikesville</h3>
+                <p>A convenient Baltimore County stay with easy access toward Windsor Mill.</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=DoubleTree+by+Hilton+Baltimore+North+Pikesville" target="_blank" rel="noreferrer">View Map</a>
+              </div>
+            </article>
+            <article class="hotel-card">
+              <div class="hotel-photo" aria-hidden="true">H</div>
+              <div class="hotel-copy">
+                <p class="card-label">About 25-30 minutes</p>
+                <h3>Hilton Garden Inn BWI Airport</h3>
+                <p>A practical pick for guests flying into BWI and staying close to the airport.</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Hilton+Garden+Inn+BWI+Airport" target="_blank" rel="noreferrer">View Map</a>
+              </div>
+            </article>
+            <article class="hotel-card">
+              <div class="hotel-photo" aria-hidden="true">A</div>
+              <div class="hotel-copy">
+                <p class="card-label">About 30-35 minutes</p>
+                <h3>The Hotel at Arundel Preserve</h3>
+                <p>A boutique-style stay near Arundel Mills, dining, and BWI-area conveniences.</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=The+Hotel+at+Arundel+Preserve" target="_blank" rel="noreferrer">View Map</a>
+              </div>
+            </article>
+          </div>
         </div>
       </section>
 
