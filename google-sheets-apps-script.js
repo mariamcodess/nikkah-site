@@ -16,10 +16,35 @@ function getRsvpSheet() {
   return sheet;
 }
 
+function normalizeText(value) {
+  return String(value || "").trim().toLowerCase().replace(/\s+/g, " ");
+}
+
+function findConfirmedRsvp(sheet, payload) {
+  const fullName = normalizeText(payload.full_name);
+  const rows = sheet.getDataRange().getValues();
+
+  for (let index = 1; index < rows.length; index += 1) {
+    const rowName = normalizeText(rows[index][1]);
+
+    if (rowName === fullName) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 function doPost(event) {
   try {
     const sheet = getRsvpSheet();
     const payload = JSON.parse(event.postData.contents);
+
+    if (payload.action === "check") {
+      return ContentService
+        .createTextOutput(JSON.stringify({ ok: true, confirmed: findConfirmedRsvp(sheet, payload) }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
 
     sheet.appendRow([
       payload.created_at || new Date().toISOString(),

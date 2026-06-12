@@ -93,3 +93,11 @@ export async function googleSheetsRequest(payload) {
 
   return result;
 }
+
+export function normalizeText(value) {
+  return String(value || "").trim().toLowerCase().replace(/\s+/g, " ");
+}
+
+export function normalizeContact(value) {
+  return String(value || "").trim().toLowerCase().replace(/[^\d+a-z@.]/g, "");
+}

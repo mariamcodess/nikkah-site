@@ -5,6 +5,11 @@ const site = document.getElementById("site");
 const passwordForm = document.getElementById("password-form");
 const passwordInput = document.getElementById("password");
 const passwordError = document.getElementById("password-error");
+const showReturning = document.getElementById("show-returning");
+const showPassword = document.getElementById("show-password");
+const returningGuest = document.getElementById("returning-guest");
+const returningForm = document.getElementById("returning-form");
+const returningError = document.getElementById("returning-error");
 const rsvpForm = document.getElementById("rsvp-form");
 const rsvpMessage = document.getElementById("rsvp-message");
 const days = document.getElementById("days");
@@ -38,6 +43,20 @@ if (sessionStorage.getItem("nikkahUnlocked") === "true") {
   unlockSite();
 }
 
+showReturning.addEventListener("click", () => {
+  passwordForm.classList.add("hidden");
+  showReturning.classList.add("hidden");
+  returningGuest.classList.remove("hidden");
+  returningError.textContent = "";
+});
+
+showPassword.addEventListener("click", () => {
+  returningGuest.classList.add("hidden");
+  passwordForm.classList.remove("hidden");
+  showReturning.classList.remove("hidden");
+  passwordError.textContent = "";
+});
+
 passwordForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   passwordError.textContent = "";
@@ -59,6 +78,37 @@ passwordForm.addEventListener("submit", async (event) => {
   } catch {
     passwordError.textContent = "That password did not match. Please try again.";
     passwordInput.select();
+  }
+});
+
+returningForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  returningError.textContent = "Checking your RSVP...";
+
+  const formData = new FormData(returningForm);
+  const payload = {
+    fullName: formData.get("fullName"),
+    password: formData.get("password"),
+  };
+
+  try {
+    const response = await fetch("/api/rsvp-check", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    const result = await response.json().catch(() => ({}));
+
+    if (!response.ok || !result.confirmed) {
+      throw new Error(result.error || "We could not find a confirmed RSVP with those details.");
+    }
+
+    sessionStorage.setItem("nikkahUnlocked", "true");
+    sessionStorage.setItem("nikkahRsvpConfirmed", "true");
+    unlockSite();
+  } catch (error) {
+    returningError.textContent = error.message || "Please try again or use the guest password.";
   }
 });
 
