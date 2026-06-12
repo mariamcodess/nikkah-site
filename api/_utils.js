@@ -98,6 +98,10 @@ export function normalizeText(value) {
   return String(value || "").trim().toLowerCase().replace(/\s+/g, " ");
 }
 
+export function normalizeDisplayText(value) {
+  return String(value || "").trim().replace(/\s+/g, " ");
+}
+
 export function normalizeContact(value) {
   return String(value || "").trim().toLowerCase().replace(/[^\d+a-z@.]/g, "");
 }

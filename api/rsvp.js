@@ -1,5 +1,6 @@
 import {
   googleSheetsRequest,
+  normalizeDisplayText,
   readBody,
   requireEnv,
   requirePost,
@@ -22,7 +23,7 @@ export default async function handler(request, response) {
     }
 
     const body = await readBody(request);
-    const fullName = String(body.fullName || "").trim();
+    const fullName = normalizeDisplayText(body.fullName);
     const email = String(body.email || "").trim();
     const phone = String(body.phone || "").trim();
     const attendance = String(body.attendance || "").trim();

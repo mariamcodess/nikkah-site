@@ -716,6 +716,10 @@ details {
   line-height: 1.02;
 }
 
+.story-panel p:not(.eyebrow) {
+  margin: 18px 0 0;
+}
+
 .coming-soon-panel {
   background:
     linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.94)),
@@ -1221,6 +1225,19 @@ th {
   .section {
     padding-left: 20px;
     padding-right: 20px;
+  }
+
+  .story-panel {
+    padding: 28px 22px;
+  }
+
+  .story-panel h2 {
+    font-size: 2rem;
+  }
+
+  .story-panel p:not(.eyebrow) {
+    font-size: 0.98rem;
+    line-height: 1.68;
   }
 
   .travel-panel {
