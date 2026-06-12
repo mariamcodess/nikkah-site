@@ -28,7 +28,20 @@ let youtubePlayer;
 let youtubeReady = false;
 let shouldPlayAudio = false;
 
-function unlockSite() {
+function scrollToEntryPoint(targetId) {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      if (targetId && document.querySelector(targetId)) {
+        document.querySelector(targetId).scrollIntoView({ behavior: "auto", block: "start" });
+        return;
+      }
+
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    });
+  });
+}
+
+function unlockSite({ respectHash = false } = {}) {
   body.classList.remove("locked");
   body.classList.add("unlocked");
   site.setAttribute("aria-hidden", "false");
@@ -38,21 +51,12 @@ function unlockSite() {
   if (sessionStorage.getItem("nikkahRsvpConfirmed") === "true") {
     body.classList.remove("rsvp-required");
     body.classList.add("rsvp-confirmed");
-    requestAnimationFrame(() => {
-      if (window.location.hash) {
-        document.querySelector(window.location.hash)?.scrollIntoView({ behavior: "auto", block: "start" });
-        return;
-      }
-
-      document.getElementById("home")?.scrollIntoView({ behavior: "auto", block: "start" });
-    });
+    scrollToEntryPoint(respectHash ? window.location.hash : null);
     return;
   }
 
   body.classList.add("rsvp-required");
-  requestAnimationFrame(() => {
-    document.getElementById("rsvp")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  });
+  scrollToEntryPoint();
 }
 
 function returnToInvitation() {
@@ -75,7 +79,7 @@ if (forceGate) {
 if (isLocalPreview && !forceGate) {
   sessionStorage.setItem("nikkahUnlocked", "true");
   sessionStorage.setItem("nikkahRsvpConfirmed", "true");
-  unlockSite();
+  unlockSite({ respectHash: true });
 } else if (sessionStorage.getItem("nikkahUnlocked") === "true") {
   unlockSite();
 }
