@@ -15,6 +15,9 @@ const rsvpForm = document.getElementById("rsvp-form");
 const rsvpMessage = document.getElementById("rsvp-message");
 const days = document.getElementById("days");
 const audioToggle = document.getElementById("audio-toggle");
+const topbar = document.querySelector(".topbar");
+const menuToggle = document.querySelector(".menu-toggle");
+const siteNav = document.getElementById("site-nav");
 const isLocalPreview = ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
 const forceGate = new URLSearchParams(window.location.search).has("gate");
 
@@ -54,6 +57,18 @@ if (isLocalPreview && !forceGate) {
 } else if (sessionStorage.getItem("nikkahUnlocked") === "true") {
   unlockSite();
 }
+
+menuToggle.addEventListener("click", () => {
+  const isOpen = topbar.classList.toggle("menu-open");
+  menuToggle.setAttribute("aria-expanded", String(isOpen));
+});
+
+siteNav.addEventListener("click", (event) => {
+  if (event.target.matches("a")) {
+    topbar.classList.remove("menu-open");
+    menuToggle.setAttribute("aria-expanded", "false");
+  }
+});
 
 showReturning.addEventListener("click", () => {
   passwordForm.classList.add("hidden");
