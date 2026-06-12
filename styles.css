@@ -1,0 +1,912 @@
+:root {
+  --white: #ffffff;
+  --ivory: #fbf8f1;
+  --champagne: #d8bd7f;
+  --champagne-dark: #9d7932;
+  --black: #11100e;
+  --soft-black: #2d2924;
+  --muted: #726b60;
+  --line: rgba(157, 121, 50, 0.28);
+  --shadow: 0 24px 70px rgba(17, 16, 14, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--white);
+  color: var(--black);
+  font-family: "Inter", system-ui, sans-serif;
+  line-height: 1.6;
+}
+
+body.locked {
+  overflow: hidden;
+}
+
+a {
+  color: inherit;
+}
+
+.gate {
+  align-items: center;
+  background:
+    linear-gradient(115deg, rgba(255, 255, 255, 0.96), rgba(251, 248, 241, 0.8)),
+    url("assets/nikkah-hero.png") center / cover;
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px;
+  position: fixed;
+  z-index: 20;
+}
+
+.gate-panel,
+.story-panel,
+.registry-content,
+.rsvp-form,
+.admin-panel {
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.gate-panel {
+  max-width: 520px;
+  padding: clamp(30px, 6vw, 52px);
+  width: 100%;
+}
+
+.section h2,
+.admin-title h1 {
+  font-family: "Cormorant Upright", "Cormorant Garamond", Georgia, serif;
+  font-weight: 500;
+  line-height: 1;
+  margin: 0;
+}
+
+.gate-panel h1,
+.hero h1 {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  line-height: 0.95;
+  margin: 0;
+}
+
+.gate-panel h1 {
+  font-size: clamp(3.2rem, 10vw, 6rem);
+}
+
+.gate-panel p,
+.section-header p,
+.detail-card p,
+.travel-grid p,
+.registry-content p,
+.story-panel p,
+details p,
+.timeline p {
+  color: var(--muted);
+}
+
+.eyebrow,
+.section-kicker,
+.card-label {
+  color: var(--champagne-dark);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.section-kicker {
+  margin-bottom: 12px;
+}
+
+.password-form label,
+.rsvp-form label,
+.admin-form label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.password-row {
+  display: flex;
+  gap: 10px;
+}
+
+input,
+select,
+button {
+  font: inherit;
+}
+
+input,
+select {
+  background: var(--white);
+  border: 1px solid rgba(17, 16, 14, 0.2);
+  color: var(--black);
+  min-height: 50px;
+  padding: 0 14px;
+  width: 100%;
+}
+
+.password-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.password-row button,
+.button {
+  align-items: center;
+  background: var(--black);
+  border: 1px solid var(--black);
+  color: var(--white);
+  cursor: pointer;
+  display: inline-flex;
+  font-weight: 800;
+  justify-content: center;
+  min-height: 50px;
+  padding: 0 20px;
+  text-decoration: none;
+}
+
+.button.secondary,
+.button.ghost {
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--black);
+}
+
+.button.ghost[aria-pressed="true"] {
+  background: var(--champagne);
+  border-color: var(--champagne-dark);
+  color: var(--black);
+}
+
+.sound-toggle {
+  align-items: center;
+  background: rgba(17, 16, 14, 0.92);
+  border: 1px solid rgba(216, 189, 127, 0.65);
+  border-radius: 999px;
+  bottom: 22px;
+  box-shadow: var(--shadow);
+  color: var(--white);
+  cursor: pointer;
+  display: flex;
+  height: 54px;
+  justify-content: center;
+  padding: 0;
+  position: fixed;
+  right: 22px;
+  width: 54px;
+  z-index: 12;
+}
+
+.sound-toggle svg {
+  fill: currentColor;
+  height: 26px;
+  width: 26px;
+}
+
+.sound-toggle .sound-wave {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.sound-toggle[aria-pressed="true"] {
+  background: var(--champagne);
+  color: var(--black);
+}
+
+.form-error {
+  color: #8f2d25;
+  min-height: 24px;
+}
+
+.form-message {
+  color: var(--champagne-dark);
+  font-weight: 700;
+  min-height: 28px;
+}
+
+.site {
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.unlocked {
+  overflow: auto;
+}
+
+body.unlocked .gate {
+  display: none;
+}
+
+body.unlocked .site {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+body.rsvp-required .topbar,
+body.rsvp-required .hero,
+body.rsvp-required #nikkah,
+body.rsvp-required #details,
+body.rsvp-required #schedule,
+body.rsvp-required #story,
+body.rsvp-required #photos,
+body.rsvp-required #qa,
+body.rsvp-required #travel,
+body.rsvp-required #registry,
+body.rsvp-required .footer,
+body.rsvp-required .sound-toggle,
+body.rsvp-required .section-break {
+  display: none;
+}
+
+body.rsvp-required #rsvp {
+  min-height: 100vh;
+  padding-top: clamp(72px, 10vw, 132px);
+}
+
+body.rsvp-confirmed #rsvp {
+  display: none;
+}
+
+.topbar {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  gap: 22px;
+  justify-content: space-between;
+  left: 0;
+  padding: 14px clamp(18px, 4vw, 58px);
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 10;
+}
+
+.brand {
+  align-items: center;
+  border: 1px solid var(--champagne);
+  display: inline-flex;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  gap: 4px;
+  height: 42px;
+  justify-content: center;
+  min-width: 82px;
+  text-decoration: none;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(10px, 1.55vw, 22px);
+  justify-content: flex-end;
+}
+
+nav a {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.hero {
+  min-height: 94vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-image,
+.hero-overlay {
+  inset: 0;
+  position: absolute;
+}
+
+.hero-image {
+  background: url("assets/nikkah-hero.png") center / cover;
+}
+
+.hero-overlay {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.68) 48%, rgba(255, 255, 255, 0.2)),
+    linear-gradient(0deg, rgba(17, 16, 14, 0.12), transparent 58%);
+}
+
+.hero-content {
+  max-width: 720px;
+  padding: 164px clamp(22px, 6vw, 84px) 126px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero h1 {
+  font-size: clamp(4rem, 11vw, 9rem);
+}
+
+.verse {
+  border-left: 3px solid var(--champagne);
+  color: var(--soft-black);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.15rem, 1.6vw, 1.55rem);
+  line-height: 1.2;
+  margin: 20px 0;
+  max-width: none;
+  padding-left: 18px;
+  white-space: nowrap;
+}
+
+.verse span {
+  color: var(--champagne-dark);
+  display: block;
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  margin-top: 8px;
+  text-transform: uppercase;
+}
+
+.hero-date {
+  color: var(--champagne-dark);
+  font-size: 1.16rem;
+  font-weight: 800;
+  margin: 18px 0 8px;
+}
+
+.hero-copy {
+  color: #49443c;
+  font-size: 1.06rem;
+  max-width: 590px;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.countdown {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--line);
+  bottom: 30px;
+  box-shadow: var(--shadow);
+  min-width: 154px;
+  padding: 18px;
+  position: absolute;
+  right: clamp(22px, 5vw, 70px);
+  text-align: center;
+  z-index: 2;
+}
+
+.countdown span {
+  display: block;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.countdown small {
+  color: var(--muted);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.section {
+  padding: clamp(72px, 10vw, 132px) clamp(22px, 6vw, 84px);
+}
+
+.section-break {
+  background: var(--ivory);
+  padding: clamp(26px, 5vw, 48px) clamp(22px, 6vw, 84px);
+}
+
+.section-break::before {
+  background: linear-gradient(90deg, transparent, rgba(157, 121, 50, 0.45), transparent);
+  content: "";
+  display: block;
+  height: 1px;
+  margin: 0 auto;
+  max-width: 1080px;
+}
+
+.section-header {
+  margin: 0 auto 34px;
+  max-width: 1080px;
+}
+
+.section-header.narrow {
+  max-width: 1240px;
+  text-align: center;
+}
+
+.section-header.narrow p:not(.eyebrow) {
+  white-space: nowrap;
+}
+
+.section h2 {
+  font-size: clamp(2.65rem, 5.8vw, 5.2rem);
+}
+
+.two-column {
+  display: grid;
+  gap: 38px;
+  grid-template-columns: minmax(220px, 0.8fr) minmax(280px, 1.2fr);
+  margin: 0 auto;
+  max-width: 1120px;
+}
+
+.prose {
+  color: #524c43;
+  font-size: 1.06rem;
+}
+
+.verse-card {
+  border-left: 3px solid var(--champagne);
+  color: var(--soft-black);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.7rem, 3vw, 2.6rem);
+  line-height: 1.1;
+  margin: 0 0 26px;
+  padding-left: 18px;
+}
+
+.verse-card span {
+  color: var(--champagne-dark);
+  display: block;
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  margin-top: 8px;
+  text-transform: uppercase;
+}
+
+.rsvp-section {
+  background:
+    linear-gradient(rgba(251, 248, 241, 0.92), rgba(251, 248, 241, 0.92)),
+    url("assets/nikkah-hero.png") center / cover;
+}
+
+.details-band,
+.photos-section {
+  background: var(--ivory);
+}
+
+.intro-section,
+.schedule-section,
+.qa-section {
+  background: var(--white);
+}
+
+.rsvp-form {
+  margin: 0 auto;
+  max-width: 920px;
+  padding: clamp(24px, 4vw, 42px);
+}
+
+.field-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 22px;
+}
+
+.detail-grid,
+.travel-grid,
+.timeline {
+  display: grid;
+  gap: 18px;
+  margin: 0 auto;
+  max-width: 1080px;
+}
+
+.detail-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.detail-card,
+.travel-grid article,
+.timeline article,
+details {
+  background: var(--white);
+  border: 1px solid var(--line);
+}
+
+.detail-card {
+  min-height: 240px;
+  padding: 28px;
+}
+
+.detail-card h3,
+.travel-grid h3,
+.timeline h3 {
+  font-family: "Cormorant Upright", "Cormorant Garamond", Georgia, serif;
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 1.05;
+  margin: 14px 0 12px;
+}
+
+.palette {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.swatch {
+  border: 1px solid rgba(17, 16, 14, 0.18);
+  display: inline-block;
+  height: 28px;
+  width: 28px;
+}
+
+.swatch.champagne {
+  background: #dcc68b;
+}
+
+.swatch.gold {
+  background: #b8933c;
+}
+
+.swatch.ivory {
+  background: #fbf8ef;
+}
+
+.timeline {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.timeline article {
+  padding: 28px;
+}
+
+.timeline time {
+  color: var(--champagne-dark);
+  font-weight: 800;
+}
+
+.story-section {
+  background:
+    linear-gradient(rgba(251, 248, 241, 0.9), rgba(251, 248, 241, 0.94)),
+    url("assets/nikkah-hero.png") center / cover;
+  color: var(--black);
+}
+
+.story-panel,
+.registry-content {
+  margin: 0 auto;
+  max-width: 860px;
+  padding: clamp(34px, 6vw, 64px);
+}
+
+.story-section .story-panel {
+  color: var(--black);
+}
+
+.story-panel h2 {
+  font-size: clamp(2.1rem, 4vw, 3.5rem);
+  line-height: 1.02;
+}
+
+.coming-soon-panel {
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.94)),
+    url("assets/nikkah-hero.png") center / cover;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  margin: 0 auto;
+  max-width: 900px;
+  overflow: hidden;
+  padding: clamp(40px, 7vw, 82px);
+  position: relative;
+  text-align: center;
+}
+
+.coming-soon-panel::before,
+.coming-soon-panel::after {
+  background: var(--champagne);
+  content: "";
+  height: 1px;
+  left: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+  width: min(220px, 48%);
+}
+
+.coming-soon-panel::before {
+  top: 28px;
+}
+
+.coming-soon-panel::after {
+  bottom: 28px;
+}
+
+.coming-soon-panel h3 {
+  font-family: "Cormorant Upright", "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(2.4rem, 6vw, 5rem);
+  font-weight: 500;
+  line-height: 1;
+  margin: 0 0 18px;
+}
+
+.coming-soon-panel p:last-child {
+  color: var(--muted);
+  margin: 0 auto;
+  max-width: 620px;
+}
+
+.faq-list {
+  display: grid;
+  gap: 12px;
+  margin: 0 auto;
+  max-width: 900px;
+}
+
+details {
+  padding: 22px 26px;
+}
+
+summary {
+  cursor: pointer;
+  font-family: "Cormorant Upright", "Cormorant Garamond", Georgia, serif;
+  font-size: 1.65rem;
+  font-weight: 500;
+  list-style: none;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary::after {
+  color: var(--champagne-dark);
+  content: "+";
+  float: right;
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+details[open] summary::after {
+  content: "-";
+}
+
+.travel-section {
+  background: var(--ivory);
+}
+
+.travel-panel {
+  background: var(--white);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 0;
+  margin: 0 auto;
+  max-width: 980px;
+}
+
+.travel-item {
+  display: grid;
+  gap: 22px;
+  grid-template-columns: 54px 1fr;
+  padding: clamp(24px, 4vw, 38px);
+}
+
+.travel-item + .travel-item {
+  border-top: 1px solid var(--line);
+}
+
+.travel-icon {
+  align-items: center;
+  background: var(--ivory);
+  border: 1px solid var(--champagne);
+  border-radius: 999px;
+  color: var(--champagne-dark);
+  display: inline-flex;
+  font-size: 1.3rem;
+  height: 54px;
+  justify-content: center;
+  width: 54px;
+}
+
+.travel-item h3 {
+  font-family: "Cormorant Upright", "Cormorant Garamond", Georgia, serif;
+  font-size: 2.2rem;
+  font-weight: 500;
+  line-height: 1;
+  margin: 0 0 12px;
+}
+
+.travel-item ul {
+  color: var(--muted);
+  margin: 0;
+  padding-left: 18px;
+}
+
+.travel-item li + li {
+  margin-top: 6px;
+}
+
+.section.registry-section {
+  background:
+    linear-gradient(135deg, rgba(17, 16, 14, 0.94), rgba(45, 41, 36, 0.84)),
+    url("assets/nikkah-hero.png") center / cover;
+  color: var(--white);
+}
+
+.registry-content {
+  color: var(--black);
+}
+
+.footer {
+  align-items: center;
+  background: var(--black);
+  color: rgba(255, 255, 255, 0.78);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: space-between;
+  padding: 28px clamp(22px, 6vw, 84px);
+}
+
+.footer p {
+  margin: 0;
+}
+
+.footer a {
+  color: var(--champagne);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.admin-body {
+  background: var(--ivory);
+}
+
+.admin-main {
+  margin: 0 auto;
+  max-width: 1180px;
+  padding: clamp(28px, 5vw, 70px);
+}
+
+.admin-title {
+  margin-bottom: 28px;
+}
+
+.admin-title h1 {
+  font-size: clamp(3rem, 7vw, 5.8rem);
+}
+
+.admin-panel {
+  padding: clamp(22px, 4vw, 38px);
+}
+
+.admin-form {
+  display: grid;
+  gap: 14px;
+  max-width: 460px;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  border-collapse: collapse;
+  min-width: 820px;
+  width: 100%;
+}
+
+th,
+td {
+  border-bottom: 1px solid var(--line);
+  padding: 14px 12px;
+  text-align: left;
+}
+
+th {
+  color: var(--champagne-dark);
+  font-size: 0.76rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .topbar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+    position: absolute;
+  }
+
+  nav {
+    justify-content: flex-start;
+  }
+
+  .hero {
+    min-height: 980px;
+  }
+
+  .hero-content {
+    padding-bottom: 190px;
+    padding-top: 238px;
+  }
+
+  .verse {
+    max-width: 560px;
+    white-space: normal;
+  }
+
+  .two-column,
+  .detail-grid,
+  .travel-grid,
+  .timeline,
+  .field-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-header.narrow p:not(.eyebrow) {
+    white-space: normal;
+  }
+
+  .detail-card,
+  .travel-grid article {
+    min-height: auto;
+  }
+
+  .countdown {
+    bottom: 24px;
+    left: 22px;
+    right: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .gate-panel {
+    padding: 30px 22px;
+  }
+
+  .password-row,
+  .hero-actions {
+    flex-direction: column;
+  }
+
+  .password-row button,
+  .hero-actions .button {
+    width: 100%;
+  }
+
+  .hero {
+    min-height: 980px;
+  }
+
+  .hero-content,
+  .section {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
