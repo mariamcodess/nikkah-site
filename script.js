@@ -15,6 +15,8 @@ const rsvpForm = document.getElementById("rsvp-form");
 const rsvpMessage = document.getElementById("rsvp-message");
 const days = document.getElementById("days");
 const audioToggle = document.getElementById("audio-toggle");
+const isLocalPreview = ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
+const forceGate = new URLSearchParams(window.location.search).has("gate");
 
 let audioContext;
 let beatTimer;
@@ -29,6 +31,11 @@ function unlockSite() {
     body.classList.remove("rsvp-required");
     body.classList.add("rsvp-confirmed");
     requestAnimationFrame(() => {
+      if (window.location.hash) {
+        document.querySelector(window.location.hash)?.scrollIntoView({ behavior: "auto", block: "start" });
+        return;
+      }
+
       document.getElementById("home")?.scrollIntoView({ behavior: "auto", block: "start" });
     });
     return;
@@ -40,7 +47,11 @@ function unlockSite() {
   });
 }
 
-if (sessionStorage.getItem("nikkahUnlocked") === "true") {
+if (isLocalPreview && !forceGate) {
+  sessionStorage.setItem("nikkahUnlocked", "true");
+  sessionStorage.setItem("nikkahRsvpConfirmed", "true");
+  unlockSite();
+} else if (sessionStorage.getItem("nikkahUnlocked") === "true") {
   unlockSite();
 }
 
