@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin | Mariam & Umar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="admin-body">
+    <main class="admin-main">
+      <section class="admin-title">
+        <p class="eyebrow">Private Admin</p>
+        <h1>RSVP Submissions</h1>
+        <p>For Mariam and Umar only.</p>
+      </section>
+
+      <section id="admin-login" class="admin-panel">
+        <form id="admin-form" class="admin-form">
+          <label for="admin-password">Admin Password</label>
+          <input id="admin-password" name="password" type="password" required />
+          <button class="button primary" type="submit">View RSVPs</button>
+          <p id="admin-error" class="form-error" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section id="admin-table-panel" class="admin-panel hidden">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Attendance</th>
+                <th>Submitted</th>
+              </tr>
+            </thead>
+            <tbody id="rsvp-table-body"></tbody>
+          </table>
+        </div>
+        <p id="admin-message" class="form-message" role="status" aria-live="polite"></p>
+      </section>
+    </main>
+
+    <script src="admin.js"></script>
+  </body>
+</html>
