@@ -13,6 +13,7 @@ const returningForm = document.getElementById("returning-form");
 const returningError = document.getElementById("returning-error");
 const rsvpForm = document.getElementById("rsvp-form");
 const rsvpMessage = document.getElementById("rsvp-message");
+const rsvpBack = document.getElementById("rsvp-back");
 const days = document.getElementById("days");
 const audioToggle = document.getElementById("audio-toggle");
 const topbar = document.querySelector(".topbar");
@@ -20,15 +21,19 @@ const menuToggle = document.querySelector(".menu-toggle");
 const siteNav = document.getElementById("site-nav");
 const isLocalPreview = ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
 const forceGate = new URLSearchParams(window.location.search).has("gate");
+const YOUTUBE_AUDIO_ID = "mrPG1PWsqpk";
+const YOUTUBE_AUDIO_VOLUME = 14;
 
-let audioContext;
-let beatTimer;
+let youtubePlayer;
+let youtubeReady = false;
+let shouldPlayAudio = false;
 
 function unlockSite() {
   body.classList.remove("locked");
   body.classList.add("unlocked");
   site.setAttribute("aria-hidden", "false");
   sessionStorage.setItem("nikkahUnlocked", "true");
+  startSoftAudio();
 
   if (sessionStorage.getItem("nikkahRsvpConfirmed") === "true") {
     body.classList.remove("rsvp-required");
@@ -50,6 +55,23 @@ function unlockSite() {
   });
 }
 
+function returnToInvitation() {
+  sessionStorage.removeItem("nikkahUnlocked");
+  sessionStorage.removeItem("nikkahGuestPassword");
+  body.classList.add("locked");
+  body.classList.remove("unlocked", "rsvp-required", "rsvp-confirmed");
+  site.setAttribute("aria-hidden", "true");
+  rsvpMessage.textContent = "";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  passwordInput.focus();
+}
+
+if (forceGate) {
+  sessionStorage.removeItem("nikkahUnlocked");
+  sessionStorage.removeItem("nikkahRsvpConfirmed");
+  sessionStorage.removeItem("nikkahGuestPassword");
+}
+
 if (isLocalPreview && !forceGate) {
   sessionStorage.setItem("nikkahUnlocked", "true");
   sessionStorage.setItem("nikkahRsvpConfirmed", "true");
@@ -69,6 +91,8 @@ siteNav.addEventListener("click", (event) => {
     menuToggle.setAttribute("aria-expanded", "false");
   }
 });
+
+rsvpBack.addEventListener("click", returnToInvitation);
 
 showReturning.addEventListener("click", () => {
   passwordForm.classList.add("hidden");
@@ -188,42 +212,82 @@ function updateCountdown() {
   days.textContent = String(dayCount);
 }
 
-function playTone(frequency, startTime, duration, gainValue) {
-  const oscillator = audioContext.createOscillator();
-  const gain = audioContext.createGain();
-  oscillator.type = "triangle";
-  oscillator.frequency.setValueAtTime(frequency, startTime);
-  gain.gain.setValueAtTime(0.0001, startTime);
-  gain.gain.exponentialRampToValueAtTime(gainValue, startTime + 0.02);
-  gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
-  oscillator.connect(gain).connect(audioContext.destination);
-  oscillator.start(startTime);
-  oscillator.stop(startTime + duration);
+function setAudioToggle(isPlaying) {
+  audioToggle.setAttribute("aria-label", isPlaying ? "Pause soft background sound" : "Play soft background sound");
+  audioToggle.setAttribute("aria-pressed", String(isPlaying));
 }
 
-function playBeatPattern() {
-  const now = audioContext.currentTime;
-  playTone(174.61, now, 1.8, 0.018);
-  playTone(220, now + 0.08, 1.6, 0.014);
-  playTone(261.63, now + 1.9, 1.7, 0.014);
-  playTone(196, now + 2.02, 1.5, 0.012);
+function createYouTubePlayer() {
+  youtubePlayer = new YT.Player("youtube-player", {
+    height: "1",
+    width: "1",
+    videoId: YOUTUBE_AUDIO_ID,
+    playerVars: {
+      autoplay: 0,
+      controls: 0,
+      loop: 1,
+      playlist: YOUTUBE_AUDIO_ID,
+      playsinline: 1,
+      rel: 0,
+    },
+    events: {
+      onReady: (event) => {
+        youtubeReady = true;
+        event.target.setVolume(YOUTUBE_AUDIO_VOLUME);
+        if (shouldPlayAudio) {
+          event.target.playVideo();
+          setAudioToggle(true);
+        }
+      },
+    },
+  });
 }
 
-audioToggle.addEventListener("click", async () => {
-  if (beatTimer) {
-    clearInterval(beatTimer);
-    beatTimer = undefined;
-    audioToggle.setAttribute("aria-label", "Play soft background sound");
-    audioToggle.setAttribute("aria-pressed", "false");
+function loadYouTubeApi() {
+  if (window.YT?.Player) {
+    createYouTubePlayer();
     return;
   }
 
-  audioContext = audioContext || new AudioContext();
-  await audioContext.resume();
-  playBeatPattern();
-  beatTimer = setInterval(playBeatPattern, 4200);
-  audioToggle.setAttribute("aria-label", "Pause soft background sound");
-  audioToggle.setAttribute("aria-pressed", "true");
+  window.onYouTubeIframeAPIReady = createYouTubePlayer;
+
+  if (!document.querySelector('script[src="https://www.youtube.com/iframe_api"]')) {
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(tag);
+  }
+}
+
+function startSoftAudio() {
+  shouldPlayAudio = true;
+
+  if (youtubeReady && youtubePlayer?.playVideo) {
+    youtubePlayer.setVolume(YOUTUBE_AUDIO_VOLUME);
+    youtubePlayer.playVideo();
+    setAudioToggle(true);
+  }
+}
+
+function pauseSoftAudio() {
+  shouldPlayAudio = false;
+
+  if (youtubePlayer?.pauseVideo) {
+    youtubePlayer.pauseVideo();
+  }
+
+  setAudioToggle(false);
+}
+
+audioToggle.addEventListener("click", () => {
+  const isPlaying = audioToggle.getAttribute("aria-pressed") === "true";
+
+  if (isPlaying) {
+    pauseSoftAudio();
+    return;
+  }
+
+  startSoftAudio();
 });
 
+loadYouTubeApi();
 updateCountdown();

@@ -256,6 +256,17 @@ select {
   color: var(--black);
 }
 
+.youtube-player {
+  height: 1px;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 1px;
+}
+
 .form-error {
   color: #8f2d25;
   min-height: 24px;
@@ -554,6 +565,34 @@ nav a {
   background:
     linear-gradient(rgba(251, 248, 241, 0.92), rgba(251, 248, 241, 0.92)),
     url("assets/nikkah-hero.png") center / cover;
+}
+
+.rsvp-back {
+  background: rgba(255, 255, 255, 0.66);
+  border: 1px solid var(--champagne);
+  border-radius: 999px;
+  color: var(--champagne-dark);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  margin: 0 auto 18px;
+  min-height: 38px;
+  padding: 0 16px;
+  text-transform: uppercase;
+}
+
+.rsvp-back::before {
+  content: "<";
+  margin-right: 8px;
+}
+
+.rsvp-back:hover,
+.rsvp-back:focus-visible {
+  background: var(--white);
+  border-color: var(--champagne-dark);
+  color: var(--black);
 }
 
 .details-band,
