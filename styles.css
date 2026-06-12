@@ -747,13 +747,40 @@ details[open] summary::after {
 .travel-intro {
   border-bottom: 1px solid var(--line);
   padding-bottom: 24px;
+  text-align: center;
 }
 
 .travel-intro p {
   color: var(--muted);
   font-size: 1.04rem;
-  margin: 0;
+  margin: 0 auto;
   max-width: 760px;
+}
+
+.travel-group {
+  display: grid;
+  gap: 18px;
+}
+
+.travel-group + .travel-group {
+  border-top: 1px solid var(--line);
+  padding-top: clamp(24px, 4vw, 34px);
+}
+
+.travel-subhead {
+  text-align: center;
+}
+
+.travel-subhead .eyebrow {
+  margin: 0 0 6px;
+}
+
+.travel-subhead h3 {
+  font-family: "Cormorant Upright", "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(2rem, 4vw, 3.15rem);
+  font-weight: 500;
+  line-height: 1;
+  margin: 0;
 }
 
 .airport-grid,
@@ -767,13 +794,15 @@ details[open] summary::after {
 }
 
 .airport-card {
-  align-items: flex-start;
+  align-items: center;
   background: var(--ivory);
   border: 1px solid var(--line);
   display: grid;
-  gap: 16px;
-  grid-template-columns: auto 1fr;
-  padding: 20px;
+  gap: 14px;
+  justify-items: center;
+  min-height: 222px;
+  padding: 24px 18px;
+  text-align: center;
 }
 
 .airport-card.preferred {
@@ -802,13 +831,14 @@ details[open] summary::after {
   color: var(--black);
 }
 
-.airport-card h3,
-.hotel-card h3 {
+.airport-card h4,
+.hotel-card h4 {
   font-family: "Cormorant Upright", "Cormorant Garamond", Georgia, serif;
-  font-size: 1.85rem;
+  font-size: clamp(1.65rem, 2.4vw, 2.25rem);
   font-weight: 500;
-  line-height: 1.05;
+  line-height: 1.02;
   margin: 0 0 8px;
+  overflow-wrap: anywhere;
 }
 
 .airport-card p,
@@ -826,9 +856,10 @@ details[open] summary::after {
   border: 1px solid var(--line);
   display: grid;
   gap: 20px;
-  grid-template-columns: 112px 1fr;
-  min-height: 210px;
+  grid-template-columns: 104px 1fr;
+  min-height: 236px;
   padding: 22px;
+  text-align: center;
 }
 
 .hotel-photo {
@@ -846,7 +877,12 @@ details[open] summary::after {
   font-weight: 700;
   justify-content: center;
   text-shadow: 0 2px 12px rgba(17, 16, 14, 0.45);
-  width: 112px;
+  width: 104px;
+}
+
+.hotel-copy {
+  margin: 0 auto;
+  max-width: 430px;
 }
 
 .hotel-copy a {
@@ -854,6 +890,7 @@ details[open] summary::after {
   display: inline-flex;
   font-size: 0.78rem;
   font-weight: 900;
+  justify-content: center;
   letter-spacing: 0.1em;
   margin-top: 14px;
   text-decoration: none;
